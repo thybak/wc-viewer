@@ -48,7 +48,7 @@ function App() {
       <HeatMap
         value={kks}
         startDate={new Date('2023/01/01')}
-        width={700}
+        width={750}
         rectRender={(props, data) => {
           if (!data.count) return <rect {...props} />;
           return (
