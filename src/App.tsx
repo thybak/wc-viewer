@@ -16,22 +16,26 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      
+      console.log(username);
       if (username === "")
         return;
 
       const kksResponse = await fetch("/wc-viewer/kks.json");
       if (!kksResponse.ok)
         return;
+
       const kks: KkEntry[] = await kksResponse.json();
-      console.log(username);
       const heatmapEntries = 
         kks.filter(kk => kk.username === username && kk.secretion_type === "0")
            .map(kk => { return { date: kk.date, count: +kk.count } as HeatmapEntry } );
       setKks(heatmapEntries);
     }
 
-    setUsername(document.location.pathname.split("/").pop() || "");
+    function getUsernameFromUrl(): string {
+      return document.location.search?.split("=")[1] || "";
+    }
+
+    setUsername(getUsernameFromUrl());
     fetchData();
   }, [username]);
 
